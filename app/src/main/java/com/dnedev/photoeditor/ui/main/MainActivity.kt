@@ -5,14 +5,26 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.dnedev.photoeditor.R
+import com.dnedev.photoeditor.utils.RequestQueueUtil
 import dagger.android.support.DaggerAppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : DaggerAppCompatActivity() {
+
+    @Inject
+    lateinit var requestQueueUtil: RequestQueueUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestQueueUtil.start()
         setContentView(R.layout.activity_main)
         initNavController()
+    }
+
+    override fun onDestroy() {
+        requestQueueUtil.stop()
+        super.onDestroy()
     }
 
     private fun initNavController() {

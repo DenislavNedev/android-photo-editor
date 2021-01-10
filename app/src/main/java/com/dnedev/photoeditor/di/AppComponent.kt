@@ -1,9 +1,7 @@
 package com.dnedev.photoeditor.di
 
 import com.dnedev.photoeditor.PhotoEditorApplication
-import com.dnedev.photoeditor.di.modules.AppModule
-import com.dnedev.photoeditor.di.modules.ApplicationBindingModule
-import com.dnedev.photoeditor.di.modules.ViewModelModule
+import com.dnedev.photoeditor.di.modules.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -16,6 +14,8 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         AppModule::class,
         ViewModelModule::class,
+        NetworkModule::class,
+        RepositoryModule::class,
         ViewModelBuilderModule::class,
         ApplicationBindingModule::class,
     ]
