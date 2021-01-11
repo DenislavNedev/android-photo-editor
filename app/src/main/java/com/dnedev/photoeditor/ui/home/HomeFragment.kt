@@ -55,7 +55,7 @@ class HomeFragment : DaggerFragment() {
 
     private fun initRecyclerView() {
         with(photos_recycler_view) {
-            layoutManager = GridLayoutManager(context, 3)
+            layoutManager = GridLayoutManager(context, SPAN_COUNT)
             adapter?.setHasStableIds(true)
             adapter = photosAdapter
 
@@ -72,5 +72,9 @@ class HomeFragment : DaggerFragment() {
                 }
             })
         }
+    }
+
+    companion object {
+        private const val SPAN_COUNT = 3
     }
 }
