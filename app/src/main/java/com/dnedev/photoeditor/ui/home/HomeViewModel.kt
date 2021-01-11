@@ -1,6 +1,7 @@
 package com.dnedev.photoeditor.ui.home
 
 import android.app.Application
+import androidx.core.os.bundleOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,8 @@ import com.dnedev.photoeditor.BuildConfig
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.data.PexelsDataResponse
 import com.dnedev.photoeditor.data.convertToPhotoItemUiModel
+import com.dnedev.photoeditor.navigation.GraphNav
+import com.dnedev.photoeditor.navigation.NavigateTo
 import com.dnedev.photoeditor.repositories.photos.PhotosRepository
 import com.dnedev.photoeditor.repositories.photos.PhotosResponseCallback
 import com.dnedev.photoeditor.utils.*
@@ -22,13 +25,19 @@ class HomeViewModel @Inject constructor(
     private val photosRepository: PhotosRepository
 ) : AndroidViewModel(application),
     HomePresenter,
-    PhotosResponseCallback {
+    PhotosResponseCallback,
+    PhotoItemPresenter {
 
     private val _uiModelLiveData = MutableLiveData<HomeUiModel>().apply {
         value = HomeUiModel(emptyList())
     }
     val uiModelLiveData: LiveData<HomeUiModel>
         get() = _uiModelLiveData
+
+
+    private val _navigation = SingleLiveEvent<NavigateTo>()
+    val navigation: LiveData<NavigateTo>
+        get() = _navigation
 
     private var nextPageUrl: String? = null
 
@@ -132,4 +141,11 @@ class HomeViewModel @Inject constructor(
 
     private fun isInternetAvailable() =
         getApplication<Application>().applicationContext.isNetworkAvailable()
+
+    override fun openPhoto(photoUrl: String) {
+        _navigation.value = GraphNav(
+            R.id.action_homeFragment_to_editFragment,
+            bundleOf(PHOTO_URL_BUNDLE_ID to photoUrl)
+        )
+    }
 }

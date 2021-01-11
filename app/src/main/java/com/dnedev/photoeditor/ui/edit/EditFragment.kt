@@ -9,6 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.databinding.EditFragmentBinding
+import com.dnedev.photoeditor.utils.PHOTO_URL_BUNDLE_ID
 import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
@@ -36,6 +37,7 @@ class EditFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.initViewModel(arguments?.getString(PHOTO_URL_BUNDLE_ID) ?: "")
         observeUiModel()
     }
 

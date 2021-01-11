@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.databinding.HomeFragmentBinding
+import com.dnedev.photoeditor.navigation.navigateTo
 import com.dnedev.photoeditor.utils.ZERO
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.home_fragment.*
@@ -23,7 +24,7 @@ class HomeFragment : DaggerFragment() {
     private val viewModel: HomeViewModel by activityViewModels { viewModelFactory }
 
     private lateinit var binding: HomeFragmentBinding
-    private val photosAdapter by lazy { PhotosAdapter() }
+    private val photosAdapter by lazy { PhotosAdapter(viewModel) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +44,7 @@ class HomeFragment : DaggerFragment() {
         super.onActivityCreated(savedInstanceState)
         observeUiModel()
         initRecyclerView()
+        observeNavigation()
     }
 
     private fun observeUiModel() {
@@ -50,6 +52,12 @@ class HomeFragment : DaggerFragment() {
         viewModel.uiModelLiveData.observe(viewLifecycleOwner, {
             binding.uiModel = it
             photosAdapter.submitList(it.photos)
+        })
+    }
+
+    private fun observeNavigation() {
+        viewModel.navigation.observe(viewLifecycleOwner, {
+            requireActivity().navigateTo(it)
         })
     }
 

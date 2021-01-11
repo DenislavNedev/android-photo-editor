@@ -8,7 +8,8 @@ import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.databinding.PhotoItemBinding
 import com.dnedev.photoeditor.utils.DataBoundListAdapter
 
-class PhotosAdapter() : DataBoundListAdapter<PhotoItemUiModel, PhotoItemBinding>(PhotoDiffUtil()) {
+class PhotosAdapter(val presenter: PhotoItemPresenter) :
+    DataBoundListAdapter<PhotoItemUiModel, PhotoItemBinding>(PhotoDiffUtil()) {
 
     override fun createBinding(
         parent: ViewGroup,
@@ -22,6 +23,7 @@ class PhotosAdapter() : DataBoundListAdapter<PhotoItemUiModel, PhotoItemBinding>
 
     override fun bind(binding: PhotoItemBinding, item: PhotoItemUiModel) {
         binding.uiModel = item
+        binding.presenter = presenter
     }
 
     override fun getItemId(position: Int): Long {

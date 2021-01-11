@@ -17,6 +17,6 @@ data class PhotoResponse(
 
 fun PhotoResponse.convertToPhotoItemUiModel() = PhotoItemUiModel(
     id = id,
-    photoUrl = photoSourceResponse.medium,
+    photoUrl = photoSourceResponse.large,
     author = photographer
 )

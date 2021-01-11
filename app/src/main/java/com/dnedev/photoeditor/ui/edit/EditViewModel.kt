@@ -15,4 +15,9 @@ class EditViewModel @Inject constructor(application: Application) : AndroidViewM
     }
     val uiModelLiveData: LiveData<EditUiModel>
         get() = _uiModelLiveData
+
+
+    fun initViewModel(url: String) {
+        _uiModelLiveData.value?.photoUrl = url
+    }
 }

@@ -42,8 +42,16 @@ class MainActivity : DaggerAppCompatActivity() {
                         toolbar.title = getString(R.string.home)
                         supportActionBar?.setDisplayHomeAsUpEnabled(false)
                     }
+                    R.id.editFragment -> {
+                        toolbar.title = getString(R.string.edit_photo)
+                        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    }
                 }
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return findNavController(R.id.nav_host_fragment).navigateUp()
     }
 }

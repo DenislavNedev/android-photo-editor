@@ -7,12 +7,19 @@
         <variable
             name="uiModel"
             type="com.dnedev.photoeditor.ui.home.PhotoItemUiModel" />
+
+        <variable
+            name="presenter"
+            type="com.dnedev.photoeditor.ui.home.PhotoItemPresenter" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="12dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="@{() -> presenter.openPhoto(uiModel.photoUrl)}"
         android:orientation="vertical">
 
         <ImageView
