@@ -1,5 +1,6 @@
 package com.dnedev.photoeditor.di.modules
 
+import com.dnedev.photoeditor.ui.edit.EditFragment
 import com.dnedev.photoeditor.ui.home.HomeFragment
 import com.dnedev.photoeditor.ui.main.MainActivity
 import dagger.Module
@@ -13,4 +14,7 @@ interface ApplicationBindingModule {
 
     @ContributesAndroidInjector
     fun homeFragment(): HomeFragment
+
+    @ContributesAndroidInjector
+    fun editFragment(): EditFragment
 }
