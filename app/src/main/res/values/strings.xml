@@ -9,4 +9,6 @@
     <string name="no_internet">No Internet Connection. Please check your connection.</string>
     <string name="author">Author:</string>
     <string name="edit_photo">Edit Photo</string>
+    <string name="change_brightness">Change Brightness:</string>
+    <string name="change_contrast">Change Contrast:</string>
 </resources>

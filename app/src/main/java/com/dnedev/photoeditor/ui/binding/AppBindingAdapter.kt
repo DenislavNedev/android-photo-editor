@@ -1,15 +1,20 @@
 package com.dnedev.photoeditor.ui.binding
 
-import android.graphics.BitmapFactory
+import android.graphics.Bitmap
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import com.dnedev.photoeditor.R
+import com.dnedev.photoeditor.ui.edit.SlidersCallback
 import com.dnedev.photoeditor.utils.INVALID_RESOURCE
-import kotlinx.coroutines.*
-import java.net.URL
+import com.dnedev.photoeditor.utils.PhotoUtil.changeBitmapContrastBrightness
+import com.dnedev.photoeditor.utils.PhotoUtil.getBitmapFromUrl
+import com.google.android.material.slider.Slider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 object AppBindingAdapter {
 
@@ -37,8 +42,14 @@ object AppBindingAdapter {
         }
     }
 
-    private suspend fun getBitmapFromUrl(url: String) = withContext(Dispatchers.IO) {
-        BitmapFactory.decodeStream(URL(url).openStream())
+    @BindingAdapter("loadPhotoFromBitmap")
+    fun loadPhotoFromBitmap(
+        imageView: ImageView,
+        bitmap: Bitmap?
+    ) {
+        bitmap?.let {
+            imageView.setImageBitmap(it)
+        } ?: imageView.setImageResource(R.drawable.ic_photo_not_found)
     }
 
     @BindingAdapter("textFromResource")
@@ -48,5 +59,43 @@ object AppBindingAdapter {
     ) {
         if (resource != INVALID_RESOURCE)
             view.text = view.context.getString(resource)
+    }
+
+    @BindingAdapter("updateBrightness")
+    fun updateBrightness(
+        slider: Slider,
+        callback: SlidersCallback
+    ) {
+        slider.addOnChangeListener { _, value, _ ->
+            callback.updateBrightness(value)
+        }
+    }
+
+    @BindingAdapter("updateContrast")
+    fun updateContrast(
+        slider: Slider,
+        callback: SlidersCallback
+    ) {
+        slider.addOnChangeListener { _, value, _ ->
+            callback.updateContrast(value)
+        }
+    }
+
+    @BindingAdapter(value = ["photoBitmap", "newContrast", "newBrightness"], requireAll = true)
+    fun updateContrastAndBrightness(
+        imageView: ImageView,
+        photoBitmap: Bitmap?,
+        newContrast: Float,
+        newBrightness: Float
+    ) {
+        photoBitmap?.let { currentBitmap ->
+            changeBitmapContrastBrightness(
+                currentBitmap,
+                newContrast,
+                newBrightness
+            )?.let { newBitmap ->
+                imageView.setImageBitmap(newBitmap)
+            }
+        }
     }
 }

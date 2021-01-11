@@ -12,3 +12,5 @@ const val PEXELS_SERACH_API_URL = "https://api.pexels.com/v1/search?"
 const val ZERO = 0
 const val INVALID_RESOURCE = 0
 const val PHOTO_URL_BUNDLE_ID = "photo_url_bundle_id"
+const val DEFAULT_BRIGHTNESS = 0f
+const val DEFAULT_CONTRAST = 1f

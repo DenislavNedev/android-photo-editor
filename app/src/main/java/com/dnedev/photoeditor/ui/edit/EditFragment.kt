@@ -43,6 +43,7 @@ class EditFragment : DaggerFragment() {
 
     private fun observeUiModel() {
         binding.presenter = viewModel
+        binding.sliderCallback = viewModel
         viewModel.uiModelLiveData.observe(viewLifecycleOwner, {
             binding.uiModel = it
         })
