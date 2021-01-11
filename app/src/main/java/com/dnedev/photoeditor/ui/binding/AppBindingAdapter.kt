@@ -1,13 +1,19 @@
 package com.dnedev.photoeditor.ui.binding
 
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.ui.edit.SlidersCallback
+import com.dnedev.photoeditor.ui.edit.colors.ColorOverlay
 import com.dnedev.photoeditor.utils.INVALID_RESOURCE
 import com.dnedev.photoeditor.utils.PhotoUtil.changeBitmapContrastBrightness
 import com.dnedev.photoeditor.utils.PhotoUtil.getBitmapFromUrl
@@ -97,5 +103,34 @@ object AppBindingAdapter {
                 imageView.setImageBitmap(newBitmap)
             }
         }
+    }
+
+    @BindingAdapter("changeBackgroundFromResource")
+    fun changeBackgroundFromResource(
+        view: View,
+        @ColorRes colorId: Int
+    ) {
+        if (colorId != INVALID_RESOURCE) {
+            view.backgroundTintList = ColorStateList.valueOf(
+                ContextCompat.getColor(
+                    view.context,
+                    colorId
+                )
+            )
+        }
+    }
+
+    @BindingAdapter("addColorOverlay")
+    fun addColorOverlay(
+        imageView: ImageView,
+        colorOverlay: ColorOverlay?
+    ) {
+        colorOverlay?.let {
+            imageView.colorFilter =
+                PorterDuffColorFilter(
+                    it.photoColorOverlay,
+                    PorterDuff.Mode.OVERLAY
+                )
+        } ?: run { imageView.colorFilter = null }
     }
 }

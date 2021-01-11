@@ -7,10 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.databinding.EditFragmentBinding
+import com.dnedev.photoeditor.ui.edit.colors.ColorsListAdapter
+import com.dnedev.photoeditor.utils.EMPTY_EDIT_TEXT
 import com.dnedev.photoeditor.utils.PHOTO_URL_BUNDLE_ID
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.edit_fragment.*
 import javax.inject.Inject
 
 class EditFragment : DaggerFragment() {
@@ -20,6 +24,7 @@ class EditFragment : DaggerFragment() {
     private val viewModel: EditViewModel by activityViewModels { viewModelFactory }
 
     private lateinit var binding: EditFragmentBinding
+    private val colorsAdapter by lazy { ColorsListAdapter(viewModel) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,8 +42,9 @@ class EditFragment : DaggerFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.initViewModel(arguments?.getString(PHOTO_URL_BUNDLE_ID) ?: "")
+        viewModel.initViewModel(arguments?.getString(PHOTO_URL_BUNDLE_ID) ?: EMPTY_EDIT_TEXT)
         observeUiModel()
+        initRecyclerView()
     }
 
     private fun observeUiModel() {
@@ -46,6 +52,14 @@ class EditFragment : DaggerFragment() {
         binding.sliderCallback = viewModel
         viewModel.uiModelLiveData.observe(viewLifecycleOwner, {
             binding.uiModel = it
+            colorsAdapter.submitList(it.colors)
         })
+    }
+
+    private fun initRecyclerView() {
+        with(colors_recycler_view) {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            adapter = colorsAdapter
+        }
     }
 }

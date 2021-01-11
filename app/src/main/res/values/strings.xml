@@ -11,4 +11,5 @@
     <string name="edit_photo">Edit Photo</string>
     <string name="change_brightness">Change Brightness:</string>
     <string name="change_contrast">Change Contrast:</string>
+    <string name="choose_color_overlay">Choose Color Overlay:</string>
 </resources>

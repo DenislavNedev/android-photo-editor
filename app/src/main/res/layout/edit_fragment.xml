@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:scaleType="center"
                 android:src="@drawable/ic_loading_placeholder"
+                app:addColorOverlay="@{uiModel.colorOverlay}"
                 app:loadPhotoFromBitmap="@{uiModel.photoBitmap}"
                 app:newBrightness="@{uiModel.photoBrightness}"
                 app:newContrast="@{uiModel.photoContrast}"
@@ -79,6 +80,28 @@
                 android:valueFrom="0.0"
                 android:valueTo="10.0"
                 app:updateContrast="@{sliderCallback}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/choose_color_overlay"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/colors_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </layout>
