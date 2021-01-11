@@ -22,6 +22,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_AUTHORIZATION_KEY", "\"563492ad6f91700001000001997ce9ebce7b45a68eb2bf110cac1350\""
+        }
+        debug {
+            buildConfigField "String", "API_AUTHORIZATION_KEY", "\"563492ad6f91700001000001997ce9ebce7b45a68eb2bf110cac1350\""
         }
     }
     dataBinding {

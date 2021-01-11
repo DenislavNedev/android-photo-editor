@@ -24,6 +24,13 @@ class PhotosAdapter() : DataBoundListAdapter<PhotoItemUiModel, PhotoItemBinding>
         binding.uiModel = item
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 }
 
 class PhotoDiffUtil : DiffUtil.ItemCallback<PhotoItemUiModel>() {

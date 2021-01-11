@@ -1,5 +1,6 @@
 package com.dnedev.photoeditor.data
 
+import com.dnedev.photoeditor.ui.home.PhotoItemUiModel
 import com.google.gson.annotations.SerializedName
 
 data class PhotoResponse(
@@ -12,4 +13,10 @@ data class PhotoResponse(
     val photographerUrl: String,
     @SerializedName("src")
     val photoSourceResponse: PhotoSourceResponse
+)
+
+fun PhotoResponse.convertToPhotoItemUiModel() = PhotoItemUiModel(
+    id = id,
+    photoUrl = photoSourceResponse.medium,
+    author = photographer
 )

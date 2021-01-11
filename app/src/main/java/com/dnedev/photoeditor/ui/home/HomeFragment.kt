@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.databinding.HomeFragmentBinding
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.home_fragment.*
 import javax.inject.Inject
 
 class HomeFragment : DaggerFragment() {
@@ -19,6 +21,7 @@ class HomeFragment : DaggerFragment() {
     private val viewModel: HomeViewModel by activityViewModels { viewModelFactory }
 
     private lateinit var binding: HomeFragmentBinding
+    private val photosAdapter by lazy { PhotosAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,5 +35,27 @@ class HomeFragment : DaggerFragment() {
             false
         )
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        observeUiModel()
+        initRecyclerView()
+    }
+
+    private fun observeUiModel() {
+        binding.presenter = viewModel
+        viewModel.uiModelLiveData.observe(viewLifecycleOwner, {
+            binding.uiModel = it
+            photosAdapter.submitList(it.photos)
+        })
+    }
+
+    private fun initRecyclerView() {
+        with(photos_recycler_view) {
+            layoutManager = GridLayoutManager(context, 3)
+            adapter?.setHasStableIds(true)
+            adapter = photosAdapter
+        }
     }
 }

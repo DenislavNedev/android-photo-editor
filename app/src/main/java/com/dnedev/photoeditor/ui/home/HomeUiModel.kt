@@ -6,7 +6,8 @@ import com.dnedev.photoeditor.utils.EMPTY_EDIT_TEXT
 import kotlin.properties.Delegates
 import androidx.databinding.library.baseAdapters.BR
 
-class HomeUiModel : BaseObservable() {
+data class HomeUiModel(val photos: List<PhotoItemUiModel>) : BaseObservable() {
+
     @get:Bindable
     var searchQuery: String by Delegates.observable(EMPTY_EDIT_TEXT) { _, _, _ ->
         notifyPropertyChanged(BR.searchQuery)
