@@ -29,7 +29,7 @@ class HomeViewModel @Inject constructor(
     val uiModelLiveData: LiveData<HomeUiModel>
         get() = _uiModelLiveData
 
-    private var nextPageResults: String? = null
+    private var nextPageUrl: String? = null
 
     override fun handlePhotosSuccessfulResponse(dataResponse: PexelsDataResponse) {
         with(dataResponse) {
@@ -38,12 +38,13 @@ class HomeViewModel @Inject constructor(
                 return
             }
 
-            nextPageResults = nextPage
+            nextPageUrl = nextPage
             photos.map { it.convertToPhotoItemUiModel() }.let {
                 _uiModelLiveData.value = _uiModelLiveData.value?.copy(
                     photos = _uiModelLiveData.value?.photos?.plus(it) ?: emptyList()
                 )?.apply {
                     areTherePhotos = photos.isNotEmpty()
+                    areLoadingMorePhotos = false
                 }
             }
         }
@@ -51,6 +52,22 @@ class HomeViewModel @Inject constructor(
 
     override fun handlePhotosErrorResponse(errorResponse: VolleyError) {
         //TODO add error handling
+        _uiModelLiveData.value?.areLoadingMorePhotos = true
+    }
+
+    fun loadMorePhotos() {
+        nextPageUrl?.let { nextPage ->
+            if (_uiModelLiveData.value?.areLoadingMorePhotos == false) {
+                _uiModelLiveData.value?.areLoadingMorePhotos = true
+                viewModelScope.launch {
+                    try {
+                        loadPhotos(nextPage)
+                    } catch (exception: Exception) {
+                        //TODO add error handling
+                    }
+                }
+            }
+        }
     }
 
     override fun search() {

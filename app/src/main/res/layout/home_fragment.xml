@@ -64,5 +64,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/search_field"
             android:layout_alignParentBottom="true" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:visibleGone="@{uiModel.areLoadingMorePhotos}" />
     </RelativeLayout>
 </layout>

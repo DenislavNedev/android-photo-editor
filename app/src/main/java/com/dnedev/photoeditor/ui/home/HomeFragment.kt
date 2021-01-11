@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.databinding.HomeFragmentBinding
+import com.dnedev.photoeditor.utils.ZERO
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.home_fragment.*
 import javax.inject.Inject
@@ -56,6 +58,19 @@ class HomeFragment : DaggerFragment() {
             layoutManager = GridLayoutManager(context, 3)
             adapter?.setHasStableIds(true)
             adapter = photosAdapter
+
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    with(layoutManager as GridLayoutManager) {
+                        if (childCount + findFirstVisibleItemPosition() >= itemCount
+                            && findFirstVisibleItemPosition() >= ZERO
+                        ) {
+                            viewModel.loadMorePhotos()
+                        }
+                    }
+                }
+            })
         }
     }
 }
