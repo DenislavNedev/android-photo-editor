@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.android.volley.VolleyError
 import com.dnedev.photoeditor.BuildConfig
+import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.data.PexelsDataResponse
 import com.dnedev.photoeditor.data.convertToPhotoItemUiModel
 import com.dnedev.photoeditor.repositories.photos.PhotosRepository
@@ -34,7 +35,8 @@ class HomeViewModel @Inject constructor(
     override fun handlePhotosSuccessfulResponse(dataResponse: PexelsDataResponse) {
         with(dataResponse) {
             if (totalResults == ZERO) {
-                //TODO add no result string
+                _uiModelLiveData.value?.infoText = R.string.no_results
+                _uiModelLiveData.value?.areLoadingMorePhotos = false
                 return
             }
 
@@ -51,19 +53,26 @@ class HomeViewModel @Inject constructor(
     }
 
     override fun handlePhotosErrorResponse(errorResponse: VolleyError) {
-        //TODO add error handling
-        _uiModelLiveData.value?.areLoadingMorePhotos = true
+        _uiModelLiveData.value?.infoText = R.string.error_occurred
+        _uiModelLiveData.value?.areLoadingMorePhotos = false
     }
 
     fun loadMorePhotos() {
         nextPageUrl?.let { nextPage ->
             if (_uiModelLiveData.value?.areLoadingMorePhotos == false) {
+
+                if (!isInternetAvailable()) {
+                    _uiModelLiveData.value?.infoText = R.string.no_internet
+                    _uiModelLiveData.value?.areLoadingMorePhotos = false
+                    return
+                }
+
                 _uiModelLiveData.value?.areLoadingMorePhotos = true
                 viewModelScope.launch {
                     try {
                         loadPhotos(nextPage)
                     } catch (exception: Exception) {
-                        //TODO add error handling
+                        _uiModelLiveData.value?.infoText = R.string.error_occurred
                     }
                 }
             }
@@ -72,21 +81,40 @@ class HomeViewModel @Inject constructor(
 
     override fun search() {
         if (!isInternetAvailable()) {
-            //TODO add error handling
+            _uiModelLiveData.value?.infoText = R.string.no_internet
+            _uiModelLiveData.value?.areLoadingMorePhotos = false
             return
+        }
+
+        if (isSearchFieldEmpty()) {
+            return
+        } else {
+            _uiModelLiveData.value?.searchQueryError = null
         }
 
         _uiModelLiveData.value?.let {
             _uiModelLiveData.value = _uiModelLiveData.value?.copy(photos = emptyList())
+            _uiModelLiveData.value?.areLoadingMorePhotos = true
+
             viewModelScope.launch {
                 try {
                     loadPhotos(getApiUrl(it.searchQuery))
                 } catch (exception: Exception) {
-                    //TODO add error handling
+                    _uiModelLiveData.value?.infoText = R.string.error_occurred
+                    _uiModelLiveData.value?.areLoadingMorePhotos = false
                 }
             }
         }
     }
+
+    private fun isSearchFieldEmpty(): Boolean =
+        _uiModelLiveData.value?.searchQuery.equals(EMPTY_EDIT_TEXT).let {
+            _uiModelLiveData.value?.searchQueryError =
+                if (it) getApplication<Application>().getString(R.string.field_must_not_be_empty)
+                else null
+
+            it
+        }
 
     private suspend fun loadPhotos(url: String) {
         photosRepository.getPhotos(

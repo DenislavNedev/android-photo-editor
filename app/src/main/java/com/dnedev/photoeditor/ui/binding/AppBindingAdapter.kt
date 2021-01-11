@@ -3,8 +3,11 @@ package com.dnedev.photoeditor.ui.binding
 import android.graphics.BitmapFactory
 import android.view.View
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import com.dnedev.photoeditor.R
+import com.dnedev.photoeditor.utils.INVALID_RESOURCE
 import kotlinx.coroutines.*
 import java.net.URL
 
@@ -36,5 +39,14 @@ object AppBindingAdapter {
 
     private suspend fun getBitmapFromUrl(url: String) = withContext(Dispatchers.IO) {
         BitmapFactory.decodeStream(URL(url).openStream())
+    }
+
+    @BindingAdapter("textFromResource")
+    fun visibleGone(
+        view: TextView,
+        @StringRes resource: Int
+    ) {
+        if (resource != INVALID_RESOURCE)
+            view.text = view.context.getString(resource)
     }
 }

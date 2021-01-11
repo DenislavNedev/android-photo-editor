@@ -32,7 +32,9 @@
                 android:layout_margin="16dp"
                 android:layout_weight="1"
                 android:hint="@string/search_photos"
-                app:endIconMode="clear_text">
+                app:endIconMode="clear_text"
+                app:error="@{uiModel.searchQueryError}"
+                app:errorIconDrawable="@{null}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -55,7 +57,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/use_the_search_above_to_find_photos"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:textFromResource="@{uiModel.infoText}"
             app:visibleGone="@{!uiModel.areTherePhotos}" />
 
         <androidx.recyclerview.widget.RecyclerView
