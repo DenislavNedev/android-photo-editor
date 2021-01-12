@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Photo Editor</string>
+    <string name="home">Home</string>
+    <string name="use_the_search_above_to_find_photos">Use the search above to find photos.</string>
+    <string name="search_photos">Search Photos</string>
+    <string name="field_must_not_be_empty">Field must not be empty!</string>
+    <string name="no_results">Sorry, No results found.</string>
+    <string name="error_occurred">An error occurred. Please try again.</string>
+    <string name="no_internet">No Internet Connection. Please check your connection.</string>
+    <string name="author">Author:</string>
+    <string name="edit_photo">Edit Photo</string>
+    <string name="change_brightness">Change Brightness:</string>
+    <string name="change_contrast">Change Contrast:</string>
+    <string name="choose_color_overlay">Choose Color Overlay:</string>
 </resources>

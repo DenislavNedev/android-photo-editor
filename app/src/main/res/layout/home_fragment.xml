@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="uiModel"
+            type="com.dnedev.photoeditor.ui.home.HomeUiModel" />
+
+        <variable
+            name="presenter"
+            type="com.dnedev.photoeditor.ui.home.HomePresenter" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/search_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textField"
+                style="@style/CustomEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_weight="1"
+                android:hint="@string/search_photos"
+                app:endIconMode="clear_text"
+                app:error="@{uiModel.searchQueryError}"
+                app:errorIconDrawable="@{null}">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:text="@={uiModel.searchQuery}"
+                    android:textColor="@android:color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="16dp"
+                android:onClick="@{() -> presenter.search()}"
+                android:src="@drawable/ic_baseline_search_24" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:textFromResource="@{uiModel.infoText}"
+            app:visibleGone="@{!uiModel.areTherePhotos}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/photos_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_field"
+            android:layout_alignParentBottom="true" />
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:visibleGone="@{uiModel.areLoadingMorePhotos}" />
+    </RelativeLayout>
+</layout>

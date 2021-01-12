@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="uiModel"
+            type="com.dnedev.photoeditor.ui.edit.EditUiModel" />
+
+        <variable
+            name="presenter"
+            type="com.dnedev.photoeditor.ui.edit.EditPresenter" />
+
+        <variable
+            name="sliderCallback"
+            type="com.dnedev.photoeditor.ui.edit.SlidersCallback" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                android:src="@drawable/ic_loading_placeholder"
+                app:addColorOverlay="@{uiModel.colorOverlay}"
+                app:loadPhotoFromBitmap="@{uiModel.photoBitmap}"
+                app:newBrightness="@{uiModel.photoBrightness}"
+                app:newContrast="@{uiModel.photoContrast}"
+                app:photoBitmap="@{uiModel.photoBitmap}" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/white" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/change_brightness"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/brightness_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:value="0.0"
+                android:valueFrom="-255.0"
+                android:valueTo="255.0"
+                app:updateBrightness="@{sliderCallback}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/change_contrast"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <com.google.android.material.slider.Slider
+                android:id="@+id/contrast_slider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:value="1.0"
+                android:valueFrom="0.0"
+                android:valueTo="10.0"
+                app:updateContrast="@{sliderCallback}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="@string/choose_color_overlay"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/colors_recycler_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>
