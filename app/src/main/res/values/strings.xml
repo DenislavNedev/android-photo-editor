@@ -12,4 +12,7 @@
     <string name="change_brightness">Change Brightness:</string>
     <string name="change_contrast">Change Contrast:</string>
     <string name="choose_color_overlay">Choose Color Overlay:</string>
+    <string name="something_went_wrong">Something went wrong. Please try again later.</string>
+    <string name="choose_an_app">Choose an app:</string>
+    <string name="share">Share</string>
 </resources>

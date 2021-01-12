@@ -14,3 +14,7 @@ const val INVALID_RESOURCE = 0
 const val PHOTO_URL_BUNDLE_ID = "photo_url_bundle_id"
 const val DEFAULT_BRIGHTNESS = 0f
 const val DEFAULT_CONTRAST = 1f
+const val CACHE_IMAGES_DIR = "images"
+const val CACHE_IMAGE_FILE_NAME = "image.png"
+const val AUTHORITY = "com.dnedev.photoeditor"
+const val IMAGE_QUALITY = 100
