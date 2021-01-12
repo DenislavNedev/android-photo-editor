@@ -14,6 +14,8 @@ import androidx.databinding.BindingAdapter
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.ui.edit.SlidersCallback
 import com.dnedev.photoeditor.ui.edit.colors.ColorOverlay
+import com.dnedev.photoeditor.utils.DEFAULT_BRIGHTNESS
+import com.dnedev.photoeditor.utils.DEFAULT_CONTRAST
 import com.dnedev.photoeditor.utils.INVALID_RESOURCE
 import com.dnedev.photoeditor.utils.PhotoUtil.changeBitmapContrastBrightness
 import com.dnedev.photoeditor.utils.PhotoUtil.getBitmapFromUrl
@@ -84,6 +86,26 @@ object AppBindingAdapter {
     ) {
         slider.addOnChangeListener { _, value, _ ->
             callback.updateContrast(value)
+        }
+    }
+
+    @BindingAdapter("setBrightnessDefault")
+    fun setBrightnessDefault(
+        slider: Slider,
+        isSetToDefault: Boolean
+    ) {
+        if (isSetToDefault) {
+            slider.value = DEFAULT_BRIGHTNESS
+        }
+    }
+
+    @BindingAdapter("setContrastDefault")
+    fun setContrastDefault(
+        slider: Slider,
+        isSetToDefault: Boolean
+    ) {
+        if (isSetToDefault) {
+            slider.value = DEFAULT_CONTRAST
         }
     }
 

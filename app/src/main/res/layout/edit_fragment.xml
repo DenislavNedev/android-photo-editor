@@ -62,6 +62,7 @@
                 android:value="0.0"
                 android:valueFrom="-255.0"
                 android:valueTo="255.0"
+                app:setBrightnessDefault="@{uiModel.photoByDefault}"
                 app:updateBrightness="@{sliderCallback}" />
 
             <TextView
@@ -81,6 +82,7 @@
                 android:value="1.0"
                 android:valueFrom="0.0"
                 android:valueTo="10.0"
+                app:setContrastDefault="@{uiModel.photoByDefault}"
                 app:updateContrast="@{sliderCallback}" />
 
             <LinearLayout
@@ -119,9 +121,18 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="75dp"
+                    android:layout_margin="16dp"
+                    android:onClick="@{() -> presenter.restoreDefault()}"
+                    android:padding="20dp"
+                    android:text="@string/restore_default" />
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/share_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="75dp"
+                    android:layout_margin="8dp"
                     android:padding="16dp"
                     android:text="@string/share"
                     app:icon="@drawable/ic_share" />
