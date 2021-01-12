@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.drawToBitmap
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dnedev.photoeditor.R
 import com.dnedev.photoeditor.databinding.EditFragmentBinding
+import com.dnedev.photoeditor.navigation.navigateTo
 import com.dnedev.photoeditor.ui.edit.colors.ColorsListAdapter
 import com.dnedev.photoeditor.utils.EMPTY_EDIT_TEXT
 import com.dnedev.photoeditor.utils.PHOTO_URL_BUNDLE_ID
@@ -45,6 +47,20 @@ class EditFragment : DaggerFragment() {
         viewModel.initViewModel(arguments?.getString(PHOTO_URL_BUNDLE_ID) ?: EMPTY_EDIT_TEXT)
         observeUiModel()
         initRecyclerView()
+        observeNavigation()
+        addListeners()
+    }
+
+    private fun observeNavigation() {
+        viewModel.navigation.observe(viewLifecycleOwner, {
+            requireActivity().navigateTo(it)
+        })
+    }
+
+    private fun addListeners() {
+        share_button.setOnClickListener {
+            viewModel.sharePhoto(edited_image.drawToBitmap())
+        }
     }
 
     private fun observeUiModel() {

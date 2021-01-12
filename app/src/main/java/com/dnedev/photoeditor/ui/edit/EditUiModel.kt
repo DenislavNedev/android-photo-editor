@@ -35,4 +35,9 @@ data class EditUiModel(val colors: List<ColorOverlay>) : BaseObservable() {
     var colorOverlay: ColorOverlay? by Delegates.observable(null) { _, _, _ ->
         notifyPropertyChanged(BR.colorOverlay)
     }
+
+    @get:Bindable
+    var isPhotoByDefault: Boolean by Delegates.observable(false) { _, _, _ ->
+        notifyPropertyChanged(BR.photoByDefault)
+    }
 }
